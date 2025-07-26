@@ -104,6 +104,35 @@
       flex-shrink: 0;
       transition: transform 0.5s ease;
     }
+
+
+    .resume-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #001f3f;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .resume-button:hover {
+            background-color: #003366;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .button-icon {
+            font-size: 1.2em;
+        }
+        .button-arrow {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .resume-button:hover .button-arrow {
+            opacity: 1;
+        }
   </style>
 </head>
 <body>
@@ -175,7 +204,13 @@
           <h2 class="text-3xl md:text-4xl font-bold mb-3 text-slate-800 dark:text-white">About Me</h2>
           <p class="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">
             I'm a basketball student-athlete with a strong passion for sports and creativity. Combining my love for the game and design, I specialize in creating dynamic and engaging sports graphics. Whether it's showcasing athletes, promoting events, or telling stories through visuals, I bring energy and authenticity to every project I create.
-          <p>Download my <a href="path/to/resume.pdf" download="JanGanilo_Resume">Resume (PDF)</a></p>
+                  <div class="resume-download">
+            <a href="path/to/resume.pdf" download="JanGanilo_Resume" class="resume-button">
+                <span class="button-icon">📄</span>
+                Download Resume (PDF)
+                <span class="button-arrow">→</span>
+            </a>
+        </div>
         </div>
           
         
