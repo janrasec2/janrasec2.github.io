@@ -254,9 +254,14 @@
 
 
     <!-- Projects Section -->
+          <div class="flex justify-center space-x-4 mb-6"> <!-- Reduced mb -->
+            <button class="category-btn px-4 py-2 bg-blue-800 text-white rounded-lg" data-category="sports">Sports Samples</button>
+            <button class="category-btn px-4 py-2 bg-gray-200 text-slate-800 rounded-lg dark:bg-slate-700 dark:text-slate-300" data-category="product">Product Samples</button>
+            <button class="category-btn px-4 py-2 bg-gray-200 text-slate-800 rounded-lg dark:bg-slate-700 dark:text-slate-300" data-category="logo">Logo Samples</button>
+          </div>
         <section id="projects" class="py-20">
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-14">
+            <div class="text-center mb-6">
               <h2 class="text-3xl md:text-4xl font-bold mb-3 text-slate-800 dark:text-white">My Projects</h2>
               <p class="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">
                 A visual showcase of my recent design work
@@ -280,61 +285,99 @@
 
             <script>
               // Image URLs - replace with paths to your local images
-              const projectImages = [
-                "images/1.jpg",
-                "images/2.jpg",
-                "images/3.jpg",
-                "images/4.jpg",
-                "images/5.jpg",
-                "images/6.png",
-                "images/7.png",
-                "images/8.png",
-                "images/9.jpg",
-                "images/10.jpg",
-                "images/11.jpg",
-                
+              const projectImages = {
+                sports: [
+                  "images/sports/1.jpg",
+                  "images/sports/2.jpg",
+                  "images/sports/3.png",
+                  "images/sports/4.png",
+                  "images/sports/5.jpg",
+                  "images/sports/6.jpg",
+                  "images/sports/7.jpg",
+                  "images/sports/8.jpg"
+                ],
+                product: [
+                  "images/product/1.jpg",
+                  "images/product/2.jpg",
+                  "images/product/3.jpg",
+                  "images/product/4.jpg",
+                  "images/product/5.jpg",
+                  "images/product/6.jpg",
+                  "images/product/7.jpg",
+                  "images/product/8.jpg",
+                  "images/product/9.jpg"
+                  
+                ],
+                logo: [
+                  "images/logo/1.jpg",
+                  "images/logo/2.jpg",
+                  "images/logo/2.png",
+                  "images/logo/3.png",
+                  "images/logo/4.png",
+                  "images/logo/5.png",
+                ]
+              };
 
-              ];
+                  let currentCategory = "sports";
+                    let currentSlide = 0;
+                    const slider = document.getElementById("projects-slider");
 
-              let currentSlide = 0;
-              const slider = document.getElementById('projects-slider');
+                    function initSlider(category) {
+                      slider.innerHTML = ""; // Clear previous slides
+                      projectImages[category].forEach((image, index) => {
+                        const slide = document.createElement("div");
+                        slide.className = "min-w-full px-8";
+                        slide.innerHTML = `
+                          <img src="${image}" alt="${category} project ${index + 1}" 
+                              class="w-full h-auto max-h-[500px] object-contain rounded-xl shadow-lg">
+                        `;
+                        slider.appendChild(slide);
+                      });
+                      currentSlide = 0;
+                      goToSlide(0);
+                    }
 
-              // Initialize slider with just images
-              function initSlider() {
-                projectImages.forEach((image, index) => {
-                  const slide = document.createElement('div');
-                  slide.className = 'min-w-full px-8';
-                  slide.innerHTML = `
-                    <img src="${image}" alt="Design project ${index+1}" class="w-full h-auto max-h-[500px] object-contain rounded-xl shadow-lg">
-                  `;
-                  slider.appendChild(slide);
-                });
-              }
+                    function goToSlide(index) {
+                      currentSlide = index;
+                      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    }
 
-              function goToSlide(index) {
-                currentSlide = index;
-                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-              }
+                    function nextSlide() {
+                      const images = projectImages[currentCategory];
+                      currentSlide = (currentSlide + 1) % images.length;
+                      goToSlide(currentSlide);
+                    }
 
-              function nextSlide() {
-                currentSlide = (currentSlide + 1) % projectImages.length;
-                goToSlide(currentSlide);
-              }
+                    function prevSlide() {
+                      const images = projectImages[currentCategory];
+                      currentSlide = (currentSlide - 1 + images.length) % images.length;
+                      goToSlide(currentSlide);
+                    }
 
-              function prevSlide() {
-                currentSlide = (currentSlide - 1 + projectImages.length) % projectImages.length;
-                goToSlide(currentSlide);
-              }
+                    document.addEventListener("DOMContentLoaded", function () {
+                      initSlider(currentCategory); // ✅ Make sure slider initializes
 
-              // Initialize slider and events
-              document.addEventListener('DOMContentLoaded', function() {
-                initSlider();
-                document.getElementById('next-slide').addEventListener('click', nextSlide);
-                document.getElementById('prev-slide').addEventListener('click', prevSlide);
-                
-                // Auto点rotate every 5 seconds
-                setInterval(nextSlide, 5000);
-              });
+                      document.getElementById("next-slide").addEventListener("click", nextSlide);
+                      document.getElementById("prev-slide").addEventListener("click", prevSlide);
+
+                      document.querySelectorAll(".category-btn").forEach((btn) => {
+                        btn.addEventListener("click", () => {
+                          document.querySelectorAll(".category-btn").forEach(b => {
+                            b.classList.remove("bg-blue-800", "text-white");
+                            b.classList.add("bg-gray-200", "text-slate-800", "dark:bg-slate-700", "dark:text-slate-300");
+                          });
+
+                          btn.classList.add("bg-blue-800", "text-white");
+                          btn.classList.remove("bg-gray-200", "text-slate-800", "dark:bg-slate-700", "dark:text-slate-300");
+
+                          currentCategory = btn.dataset.category;
+                          initSlider(currentCategory); // ✅ Reinitialize slider for selected category
+                        });
+                      });
+
+                      // ❌ Removed auto-rotate
+                      // setInterval(nextSlide, 5000);
+                    });
             </script>
             </script>
           </div>
@@ -442,6 +485,7 @@
       }
     });
     
+    
     // Mobile menu toggle
     const menuToggle = document.getElementById('menu-toggle');
     const menuClose = document.getElementById('menu-close');
@@ -469,4 +513,3 @@
   </script>
 </body>
 </html>
-
